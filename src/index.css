@@ -1,4 +1,21 @@
-body {
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.prose {
+    color: #334155;
+    max-width: none;
+}
+p {
+  @apply leading-7;
+}
+time {
+  @apply text-[#64748B];
+}
+.container {
+  @apply w-full max-w-screen-md mx-auto;
+}
+/* body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -10,4 +27,4 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
+} */
