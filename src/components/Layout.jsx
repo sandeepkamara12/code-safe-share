@@ -9,20 +9,33 @@ const Layout = ({ children }) => {
   const asideRef = useRef(null);
   const [isSticky, setSticky] = useState(false);
   const [top, setTop] = useState(0);
-
+  
   useEffect(() => {
+    let lastScrollTop = 0;
     const handleScroll = () => {
       if (asideRef.current) {
-        const sidebarHeight = asideRef.current.offsetHeight;
-        const scrollTop = window.pageYOffset + window.innerHeight;
+        const currentScrollTop =
+          window.scrollY || document.documentElement.scrollTop;
 
-        if (scrollTop > sidebarHeight) {
-          setTop(window.innerHeight - (sidebarHeight + 80)); // 64 is the header height + a few jurking margin.
-          setSticky(true);
+        const sidebarHeight = asideRef.current.offsetHeight;
+        if (currentScrollTop > lastScrollTop) {
+          console.log("down");
+          const scrollTop = window.pageYOffset + window.innerHeight;
+
+          if (scrollTop > sidebarHeight) {
+            setTop(window.innerHeight - (sidebarHeight + 80)); // 64 is the header height + a few jurking margin.
+            setSticky(true);
+          }
         } else {
-          setTop(0);
-          setSticky(false);
+          if (currentScrollTop === 0) {
+            setTop(0);
+            setSticky(false);
+          } else {
+            setTop(144);
+            setSticky(true);
+          }
         }
+        lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop; // For Mobile or negative scrolling
       }
     };
 
@@ -45,7 +58,7 @@ const Layout = ({ children }) => {
               style={{
                 position: isSticky ? "sticky" : "relative",
                 top: isSticky ? top : "initial",
-              }}
+                }}
             >
               <div className="mb-10">
                 <h1 className="mb-4 text-2xl tracking-tight text-slate-900 font-extrabold dark:text-slate-200">
